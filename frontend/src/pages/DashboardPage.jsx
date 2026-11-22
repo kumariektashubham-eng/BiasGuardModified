@@ -100,7 +100,7 @@ export const DashboardPage = () => {
 
         <Link
           to="/interviews/new"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-semibold text-xs tracking-wide transition-all shadow-lg shadow-purple-600/25 active:scale-[0.99] self-start sm:self-auto"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#2F855A] hover:bg-[#276749] text-white font-semibold text-xs tracking-wide transition-all shadow-sm active:scale-[0.99] self-start sm:self-auto"
         >
           <PlusCircle className="w-4 h-4" />
           <span>+ New Interview</span>

@@ -96,15 +96,26 @@ def init_db() -> bool:
         return True
     except Exception as e:
         diag = diagnose_connection_error(e, active_uri)
-        db_instance.client = None
-        db_instance.db = None
-        if _last_logged_diag != diag:
-            logger.warning(
-                f"MongoDB connection notice: {diag} "
-                f"The backend server will remain online in resilient mode."
-            )
-            _last_logged_diag = diag
-        return False
+        logger.warning(f"MongoDB connection notice for primary URI: {diag}. Attempting fallback to local MongoDB (mongodb://localhost:27017)...")
+        try:
+            local_client = MongoClient("mongodb://localhost:27017", serverSelectionTimeoutMS=2000, connectTimeoutMS=2000)
+            local_client.admin.command("ping")
+            db_instance.client = local_client
+            db_instance.db = local_client["biasguard_db"]
+            logger.info("Connected successfully to fallback local MongoDB instance (biasguard_db).")
+            create_indexes()
+            return True
+        except Exception as local_err:
+            logger.error(f"Fallback to local MongoDB also failed: {local_err}")
+            db_instance.client = None
+            db_instance.db = None
+            if _last_logged_diag != diag:
+                logger.warning(
+                    f"MongoDB connection notice: {diag} "
+                    f"The backend server will remain online in resilient mode."
+                )
+                _last_logged_diag = diag
+            return False
 
 def ping_database() -> tuple[bool, str]:
     """

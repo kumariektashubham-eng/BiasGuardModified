@@ -54,7 +54,7 @@ export const LandingPage = () => {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <div className="max-w-2xl">
               <span className="inline-block bg-green-100 text-[#2F855A] text-xs font-bold px-2.5 py-1 rounded mb-3">
-                DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING
+                BIRLA INSTITUTE OF TECHNOLOGY, MESRA · JAIPUR CAMPUS
               </span>
               <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight leading-snug">
                 Dual-Track Technical Interview Evaluation & Calibration System
@@ -174,7 +174,7 @@ export const LandingPage = () => {
         {/* Academic Project Credits Footer */}
         <div className="bg-white border border-gray-200 rounded-lg p-4 text-xs text-gray-500 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div>
-            <span className="font-semibold text-gray-700">Project Guide:</span> Dr. Pankaj Gupta, Assistant Professor, Dept. of CSE
+            <span className="font-semibold text-gray-700">Project Guide:</span> Dr. Pankaj Gupta, Assistant Professor, BIT Mesra
           </div>
           <div>
             <span className="font-semibold text-gray-700">Team:</span> Dipraa Arora | Kumari Ekta Shubham | Pinky Jain
