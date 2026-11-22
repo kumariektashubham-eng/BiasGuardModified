@@ -41,7 +41,12 @@ def test_audio_first_evaluation_without_candidate_text(auth_headers):
     from audio_id and performs AI technical evaluation.
     """
     ints_col = get_interviews_collection()
-    interview = ints_col.find_one({})
+    interview = ints_col.find_one({"status": {"$in": ["scheduled", "in_progress", "pending"]}})
+    if not interview:
+        interview = ints_col.find_one({})
+        if interview:
+            ints_col.update_one({"_id": interview["_id"]}, {"$set": {"status": "in_progress"}})
+            interview["status"] = "in_progress"
     assert interview is not None, "Seed interview should exist"
     
     interview_id = str(interview["_id"])

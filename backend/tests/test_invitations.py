@@ -41,7 +41,8 @@ def test_email_template_generation():
     assert "Join Technical Interview" in html_content
 
 @pytest.mark.anyio
-async def test_send_invitation_console_mode():
+async def test_send_invitation_console_mode(monkeypatch):
+    monkeypatch.setattr("app.services.email_service.settings.EMAIL_PROVIDER", "console")
     raw_token, _, _ = generate_invitation_token()
     result = await send_interview_invitation(
         candidate_name="Bob Smith",

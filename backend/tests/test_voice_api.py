@@ -100,7 +100,12 @@ def test_voice_upload_validation_errors(auth_headers):
 def test_voice_evaluation_flow(auth_headers):
     from app.database import get_interviews_collection
     ints_col = get_interviews_collection()
-    interview = ints_col.find_one({})
+    interview = ints_col.find_one({"status": {"$in": ["scheduled", "in_progress", "pending"]}})
+    if not interview:
+        interview = ints_col.find_one({})
+        if interview:
+            ints_col.update_one({"_id": interview["_id"]}, {"$set": {"status": "in_progress"}})
+            interview["status"] = "in_progress"
     if not interview:
         pytest.skip("No interview found in test DB to evaluate.")
 
