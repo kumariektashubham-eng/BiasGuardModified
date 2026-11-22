@@ -21,7 +21,6 @@ import {
   Radio
 } from 'lucide-react';
 import { interviewsApi } from '../services/api';
-import { Badge } from '../components/common/Badge';
 
 export const InterviewsPage = () => {
   const navigate = useNavigate();
@@ -139,17 +138,17 @@ export const InterviewsPage = () => {
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-200 pb-5">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Interviews</h1>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Interviews</h1>
+          <p className="text-xs sm:text-sm text-gray-600 mt-1">
             Manage interview sessions, evaluate candidate recordings, and monitor AI assessment scores.
           </p>
         </div>
 
         <Link
           to="/interviews/new"
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-semibold text-xs transition-all shadow-lg shadow-purple-600/25 active:scale-[0.99] self-start sm:self-auto"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded bg-[#2F855A] hover:bg-[#276749] text-white font-semibold text-xs tracking-wide transition-colors shadow-sm self-start sm:self-auto cursor-pointer"
         >
           <PlusCircle className="w-4 h-4" />
           <span>+ New Interview</span>
@@ -158,50 +157,50 @@ export const InterviewsPage = () => {
 
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-indigo-600 text-white text-xs font-semibold px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2 animate-bounce">
-          <Check className="w-4 h-4 text-emerald-300" />
+        <div className="fixed bottom-6 right-6 z-50 bg-gray-900 text-white text-xs font-semibold px-4 py-3 rounded-lg shadow-xl flex items-center gap-2">
+          <Check className="w-4 h-4 text-[#2F855A]" />
           <span>{toastMessage}</span>
         </div>
       )}
 
       {/* Metrics Summary Bar */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="p-4 rounded-xl bg-[#0F172A] border border-slate-800">
-          <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mb-1">
+        <div className="p-4 rounded-lg bg-white border border-gray-200 shadow-sm">
+          <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider block mb-1">
             Total Interviews
           </span>
-          <span className="text-2xl font-bold text-white">{totalCount}</span>
+          <span className="text-2xl font-extrabold text-gray-900">{totalCount}</span>
         </div>
-        <div className="p-4 rounded-xl bg-[#0F172A] border border-slate-800">
-          <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mb-1">
+        <div className="p-4 rounded-lg bg-white border border-gray-200 shadow-sm">
+          <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider block mb-1">
             Completed
           </span>
-          <span className="text-2xl font-bold text-emerald-400">{completedCount}</span>
+          <span className="text-2xl font-extrabold text-[#2F855A]">{completedCount}</span>
         </div>
-        <div className="p-4 rounded-xl bg-[#0F172A] border border-slate-800">
-          <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mb-1">
+        <div className="p-4 rounded-lg bg-white border border-gray-200 shadow-sm">
+          <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider block mb-1">
             In Progress
           </span>
-          <span className="text-2xl font-bold text-purple-400">{inProgressCount}</span>
+          <span className="text-2xl font-extrabold text-blue-600">{inProgressCount}</span>
         </div>
-        <div className="p-4 rounded-xl bg-[#0F172A] border border-slate-800">
-          <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mb-1">
+        <div className="p-4 rounded-lg bg-white border border-gray-200 shadow-sm">
+          <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider block mb-1">
             Pending Evaluation
           </span>
-          <span className="text-2xl font-bold text-slate-300">{pendingCount}</span>
+          <span className="text-2xl font-extrabold text-gray-600">{pendingCount}</span>
         </div>
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-[#0F172A] border border-slate-800 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="relative flex-1">
-          <Search className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Search by interview title, candidate name, or role..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-purple-500 transition-colors"
+            className="w-full pl-9 pr-3 py-2 rounded border border-gray-300 text-xs text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-[#2F855A] focus:border-[#2F855A] transition-colors"
           />
         </div>
 
@@ -210,7 +209,7 @@ export const InterviewsPage = () => {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="py-2 px-3 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-purple-500 transition-colors"
+            className="py-2 px-3 rounded border border-gray-300 text-xs text-gray-700 bg-white focus:outline-none focus:ring-1 focus:ring-[#2F855A] transition-colors"
           >
             <option value="ALL">All Statuses</option>
             <option value="active">Active</option>
@@ -223,7 +222,7 @@ export const InterviewsPage = () => {
           <select
             value={domainFilter}
             onChange={(e) => setDomainFilter(e.target.value)}
-            className="py-2 px-3 rounded-xl bg-slate-900 border border-slate-800 text-xs text-slate-200 focus:outline-none focus:border-purple-500 transition-colors"
+            className="py-2 px-3 rounded border border-gray-300 text-xs text-gray-700 bg-white focus:outline-none focus:ring-1 focus:ring-[#2F855A] transition-colors"
           >
             <option value="ALL">All Domains</option>
             <option value="DSA">DSA</option>
@@ -237,19 +236,19 @@ export const InterviewsPage = () => {
       </div>
 
       {/* Interviews Table / Cards */}
-      <div className="bg-[#0F172A] border border-slate-800 rounded-2xl overflow-hidden shadow-sm">
+      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
         {loading ? (
-          <div className="p-12 text-center text-slate-400 text-sm">
-            <div className="w-8 h-8 border-2 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+          <div className="p-12 text-center text-gray-500 text-sm">
+            <div className="w-7 h-7 border-2 border-[#2F855A] border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
             Loading interview sessions...
           </div>
         ) : filteredInterviews.length === 0 ? (
-          <div className="p-12 text-center text-slate-400 text-sm space-y-3">
-            <Layers className="w-8 h-8 text-slate-600 mx-auto" />
+          <div className="p-12 text-center text-gray-500 text-sm space-y-3">
+            <Layers className="w-8 h-8 text-gray-400 mx-auto" />
             <p>No interviews found matching your filter criteria.</p>
             <Link
               to="/interviews/new"
-              className="inline-flex items-center gap-1.5 text-xs text-purple-400 hover:text-purple-300 font-semibold"
+              className="inline-flex items-center gap-1.5 text-xs text-[#2F855A] hover:underline font-semibold"
             >
               <PlusCircle className="w-3.5 h-3.5" /> Create a new interview
             </Link>
@@ -257,7 +256,7 @@ export const InterviewsPage = () => {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-900/70 text-slate-400 uppercase font-semibold text-[11px] border-b border-slate-800">
+              <thead className="bg-gray-50 text-gray-700 uppercase font-bold text-[11px] border-b border-gray-200">
                 <tr>
                   <th className="px-5 py-3.5">Interview & Candidate</th>
                   <th className="px-5 py-3.5">Domains</th>
@@ -269,7 +268,7 @@ export const InterviewsPage = () => {
                   <th className="px-5 py-3.5 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/60">
+              <tbody className="divide-y divide-gray-100">
                 {filteredInterviews.map((item) => {
                   const totalQ = item.total_questions || item.questions?.length || 0;
                   const evalQ = item.evaluated_questions || 0;
@@ -280,25 +279,25 @@ export const InterviewsPage = () => {
                     : 'Recent';
 
                   return (
-                    <tr key={item.id} className="hover:bg-slate-850/40 transition-colors">
+                    <tr key={item.id} className="hover:bg-gray-50/70 transition-colors">
                       {/* Interview & Candidate */}
                       <td className="px-5 py-4">
                         <Link 
                           to={`/interviews/${item.id}/evaluate`}
-                          className="font-bold text-sm text-slate-100 hover:text-purple-400 transition-colors block"
+                          className="font-bold text-sm text-gray-900 hover:text-[#2F855A] transition-colors block"
                         >
                           {item.title}
                         </Link>
                         <div className="flex items-center gap-2 mt-1">
                           <Link 
                             to={`/candidates/${item.candidate_id}`}
-                            className="text-xs text-purple-400 hover:underline flex items-center gap-1"
+                            className="text-xs text-[#2F855A] hover:underline flex items-center gap-1 font-medium"
                           >
                             <User className="w-3 h-3" />
                             <span>{item.candidate_name || 'Candidate'}</span>
                           </Link>
-                          <span className="text-slate-600">•</span>
-                          <span className="text-[11px] text-slate-400">{item.candidate_role || 'Candidate'}</span>
+                          <span className="text-gray-300">•</span>
+                          <span className="text-[11px] text-gray-500">{item.candidate_role || 'Candidate'}</span>
                         </div>
                       </td>
 
@@ -308,7 +307,7 @@ export const InterviewsPage = () => {
                           {item.domains?.map((d) => (
                             <span 
                               key={d} 
-                              className="px-2 py-0.5 rounded bg-slate-900 text-slate-300 border border-slate-800 text-[10px] font-mono"
+                              className="px-2 py-0.5 rounded bg-gray-100 text-gray-700 border border-gray-200 text-[10px] font-mono"
                             >
                               {d}
                             </span>
@@ -317,9 +316,9 @@ export const InterviewsPage = () => {
                       </td>
 
                       {/* Date */}
-                      <td className="px-5 py-4 text-slate-400">
-                        <div className="flex items-center gap-1.5 text-slate-300">
-                          <Calendar className="w-3.5 h-3.5 text-slate-500" />
+                      <td className="px-5 py-4 text-gray-500">
+                        <div className="flex items-center gap-1.5 text-gray-600">
+                          <Calendar className="w-3.5 h-3.5 text-gray-400" />
                           <span>{dateStr}</span>
                         </div>
                       </td>
@@ -327,13 +326,13 @@ export const InterviewsPage = () => {
                       {/* Progress */}
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-2">
-                          <div className="w-16 bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                          <div className="w-16 bg-gray-200 rounded-full h-1.5 overflow-hidden">
                             <div 
-                              className={`h-1.5 rounded-full ${isCompleted ? 'bg-emerald-500' : 'bg-purple-500'}`}
+                              className={`h-1.5 rounded-full ${isCompleted ? 'bg-[#2F855A]' : 'bg-blue-600'}`}
                               style={{ width: `${totalQ > 0 ? (evalQ / totalQ) * 100 : 0}%` }}
                             />
                           </div>
-                          <span className="text-slate-300 font-mono text-[11px]">
+                          <span className="text-gray-600 font-mono text-[11px]">
                             {evalQ}/{totalQ}
                           </span>
                         </div>
@@ -342,42 +341,42 @@ export const InterviewsPage = () => {
                       {/* Scores */}
                       <td className="px-5 py-4">
                         {item.average_ai_score !== null && item.average_interviewer_score !== null ? (
-                          <div className="flex items-center gap-1.5 text-xs">
-                            <span className="font-semibold text-purple-400" title="AI Score">
+                          <div className="flex items-center gap-1.5 text-xs font-semibold">
+                            <span className="text-[#2F855A]" title="AI Score">
                               AI: {item.average_ai_score}
                             </span>
-                            <span className="text-slate-500">/</span>
-                            <span className="text-slate-300" title="Interviewer Score">
+                            <span className="text-gray-400">/</span>
+                            <span className="text-gray-700" title="Interviewer Score">
                               Human: {item.average_interviewer_score}
                             </span>
                           </div>
                         ) : (
-                          <span className="text-slate-500 italic text-[11px]">Pending scoring</span>
+                          <span className="text-gray-400 italic text-[11px]">Pending scoring</span>
                         )}
                       </td>
 
                       {/* Status */}
                       <td className="px-5 py-4">
                         {item.status === 'completed' ? (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded text-[11px] font-semibold bg-green-50 text-[#2F855A] border border-green-200">
                             <CheckCircle2 className="w-3 h-3" /> Completed
                           </span>
                         ) : item.status === 'active' || item.status === 'in_progress' ? (
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-semibold bg-blue-50 text-blue-700 border border-blue-200">
+                            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
                             Active
                           </span>
                         ) : item.status === 'paused' ? (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded text-[11px] font-semibold bg-amber-50 text-amber-800 border border-amber-200">
                             <Clock className="w-3 h-3" /> Paused
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium bg-slate-800 text-slate-400 border border-slate-700">
+                          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded text-[11px] font-medium bg-gray-100 text-gray-600 border border-gray-200">
                             Not Started
                           </span>
                         )}
                         {hasDiscrepancy && (
-                          <span className="block mt-1 text-[10px] text-amber-400 font-mono">
+                          <span className="block mt-1 text-[10px] text-amber-700 font-mono font-medium">
                             Review Flag ({item.discrepancy_count})
                           </span>
                         )}
@@ -387,57 +386,57 @@ export const InterviewsPage = () => {
                       <td className="px-5 py-4">
                         <div className="space-y-1">
                           {item.invitation?.status === 'completed' ? (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold bg-green-50 text-[#2F855A] border border-green-200">
                               <CheckCircle2 className="w-2.5 h-2.5" /> Completed
                             </span>
                           ) : item.invitation?.status === 'started' ? (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold bg-purple-500/10 text-purple-400 border border-purple-500/20">
-                              <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" /> In Session
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-50 text-blue-700 border border-blue-200">
+                              <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" /> In Session
                             </span>
                           ) : item.invitation?.status === 'accepted' ? (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-50 text-blue-700 border border-blue-200">
                               Accepted
                             </span>
                           ) : (item.invitation?.email_status === 'failed' || item.email_status === 'failed') ? (
                             <span 
-                              className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/20 cursor-help" 
+                              className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold bg-red-50 text-red-700 border border-red-200 cursor-help" 
                               title={item.invitation?.email_error || item.email_error || 'Email dispatch failed'}
                             >
                               <AlertCircle className="w-2.5 h-2.5" /> Email Failed
                             </span>
                           ) : (item.invitation?.email_status === 'skipped' || item.email_status === 'skipped') ? (
                             <span 
-                              className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20 cursor-help" 
+                              className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-50 text-amber-700 border border-amber-200 cursor-help" 
                               title={item.invitation?.email_error || item.email_error || 'Email skipped (no address)'}
                             >
                               <AlertCircle className="w-2.5 h-2.5" /> Email Skipped
                             </span>
                           ) : (item.invitation?.email_status === 'sent' || item.invitation?.status === 'sent' || item.email_status === 'sent') ? (
                             <span 
-                              className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20"
+                              className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-50 text-blue-700 border border-blue-200"
                               title={`Sent at: ${item.invitation?.email_sent_at || item.email_sent_at || 'Recently'}`}
                             >
                               <Mail className="w-2.5 h-2.5" /> Invite Sent
                             </span>
                           ) : (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-800 text-slate-400 border border-slate-700">
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-semibold bg-gray-100 text-gray-600 border border-gray-200">
                               Pending
                             </span>
                           )}
 
                           {item.candidate_email ? (
-                            <div className="text-[10px] text-slate-400 truncate max-w-[140px]" title={item.candidate_email}>
+                            <div className="text-[10px] text-gray-500 truncate max-w-[140px]" title={item.candidate_email}>
                               {item.candidate_email}
                             </div>
                           ) : (
-                            <div className="text-[10px] text-amber-500/80 italic">
+                            <div className="text-[10px] text-amber-600/80 italic">
                               No email on file
                             </div>
                           )}
 
                           {(item.invitation?.email_error || item.email_error) && (
                             <div 
-                              className="text-[10px] text-rose-400 truncate max-w-[140px] font-mono" 
+                              className="text-[10px] text-red-600 truncate max-w-[140px] font-mono" 
                               title={item.invitation?.email_error || item.email_error}
                             >
                               {item.invitation?.email_error || item.email_error}
@@ -453,17 +452,17 @@ export const InterviewsPage = () => {
                           <button
                             type="button"
                             onClick={() => handleCopyInviteLink(item)}
-                            className="px-2 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-medium border border-slate-700 transition-colors flex items-center gap-1"
+                            className="px-2.5 py-1.5 rounded bg-gray-50 hover:bg-gray-100 text-gray-700 text-xs font-medium border border-gray-300 transition-colors flex items-center gap-1 cursor-pointer"
                             title="Copy Candidate Invitation Link"
                           >
                             {copySuccessId === item.id ? (
                               <>
-                                <Check className="w-3.5 h-3.5 text-emerald-400" />
-                                <span className="text-[11px] text-emerald-400">Copied</span>
+                                <Check className="w-3.5 h-3.5 text-[#2F855A]" />
+                                <span className="text-[11px] text-[#2F855A] font-semibold">Copied</span>
                               </>
                             ) : (
                               <>
-                                <Copy className="w-3.5 h-3.5 text-slate-400" />
+                                <Copy className="w-3.5 h-3.5 text-gray-500" />
                                 <span className="text-[11px]">Copy Link</span>
                               </>
                             )}
@@ -474,7 +473,7 @@ export const InterviewsPage = () => {
                             type="button"
                             onClick={() => handleResendInvite(item)}
                             disabled={sendingInviteId === item.id}
-                            className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white border border-slate-700 transition-colors disabled:opacity-50"
+                            className="p-1.5 rounded bg-gray-50 hover:bg-gray-100 text-gray-600 border border-gray-300 transition-colors disabled:opacity-50 cursor-pointer"
                             title="Resend Invitation Email"
                           >
                             <Send className={`w-3.5 h-3.5 ${sendingInviteId === item.id ? 'animate-spin' : ''}`} />
@@ -482,16 +481,16 @@ export const InterviewsPage = () => {
 
                           <Link
                             to={`/interviews/${item.id}/live`}
-                            className="px-2.5 py-1.5 rounded-lg bg-emerald-600/20 hover:bg-emerald-600 text-emerald-300 hover:text-white font-semibold text-xs border border-emerald-500/30 transition-all flex items-center gap-1"
-                            title="Join Live Interview Room (Real-time Audio & Evidence)"
+                            className="px-2.5 py-1.5 rounded bg-green-50 hover:bg-[#2F855A] text-[#2F855A] hover:text-white font-semibold text-xs border border-green-200 transition-all flex items-center gap-1"
+                            title="Join Live Interview Room"
                           >
-                            <Radio className="w-3.5 h-3.5 text-emerald-400" />
+                            <Radio className="w-3.5 h-3.5" />
                             <span>Join Live</span>
                           </Link>
 
                           <Link
                             to={`/interviews/${item.id}/evaluate`}
-                            className="px-2.5 py-1.5 rounded-lg bg-purple-600/20 hover:bg-purple-600 text-purple-300 hover:text-white font-semibold text-xs border border-purple-500/30 transition-all"
+                            className="px-2.5 py-1.5 rounded bg-gray-800 hover:bg-gray-900 text-white font-semibold text-xs transition-colors"
                           >
                             Conduct
                           </Link>
@@ -499,7 +498,7 @@ export const InterviewsPage = () => {
                           {evalQ > 0 && (
                             <Link
                               to={`/reports/${item.id}`}
-                              className="px-2 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium border border-slate-700 transition-colors"
+                              className="px-2.5 py-1.5 rounded bg-gray-50 hover:bg-gray-100 text-gray-700 text-xs font-medium border border-gray-300 transition-colors"
                               title="View Evaluation Report"
                             >
                               Report
