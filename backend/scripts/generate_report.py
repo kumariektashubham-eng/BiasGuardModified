@@ -2,7 +2,7 @@ import os
 import docx
 from docx.shared import Inches, Pt, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH
-from docx.enum.table import WD_TABLE_ALIGNMENT
+from docx.enum.table import WD_TABLE_ALIGNMENT, WD_ALIGN_VERTICAL
 from docx.oxml import OxmlElement, parse_xml
 from docx.oxml.ns import nsdecls, qn
 
@@ -36,7 +36,7 @@ def create_report():
         p.paragraph_format.space_after = Pt(12)
         run = p.add_run(text)
         run.bold = True
-        run.font.size = Pt(17)
+        run.font.size = Pt(16)
         run.font.name = 'Times New Roman'
         run.font.color.rgb = RGBColor(16, 44, 87)
         return p
@@ -96,11 +96,11 @@ def create_report():
         p = doc.add_paragraph()
         p.paragraph_format.space_before = Pt(4)
         p.paragraph_format.space_after = Pt(6)
-        p.paragraph_format.left_indent = Inches(0.3)
+        p.paragraph_format.left_indent = Inches(0.25)
         p.paragraph_format.line_spacing = 1.15
         run = p.add_run(code_text)
         run.font.name = 'Consolas'
-        run.font.size = Pt(9.5)
+        run.font.size = Pt(9.0)
         run.font.color.rgb = RGBColor(40, 40, 40)
         return p
 
@@ -119,7 +119,7 @@ def create_report():
         return p
 
     # ==========================================
-    # 1. COVER PAGE (ALL 3 STUDENTS + BIT MESRA)
+    # 1. COVER PAGE
     # ==========================================
     p_cov = doc.add_paragraph()
     p_cov.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -461,7 +461,6 @@ def create_report():
         "Table 1.1 maps the project layers to their respective technologies and system responsibilities:"
     )
 
-    # Table 1.1
     t11 = doc.add_table(rows=8, cols=3)
     t11.alignment = WD_TABLE_ALIGNMENT.CENTER
     t11_headers = ["Layer", "Role", "Technology"]
@@ -511,7 +510,6 @@ def create_report():
         "Functional requirements define the core operational capabilities of the platform, organized in Table 2.1:"
     )
 
-    # Table 2.1
     t21 = doc.add_table(rows=7, cols=4)
     t21.alignment = WD_TABLE_ALIGNMENT.CENTER
     t21_headers = ["Req ID", "Module", "Functional Requirement Description", "Priority"]
@@ -611,7 +609,6 @@ def create_report():
         "Data persistence is managed via MongoDB Atlas document collections, outlined in Table 3.1:"
     )
 
-    # Table 3.1
     t31 = doc.add_table(rows=6, cols=3)
     t31.alignment = WD_TABLE_ALIGNMENT.CENTER
     t31_headers = ["Collection", "Primary Keys & Indexes", "Key Document Attributes"]
@@ -735,7 +732,6 @@ def create_report():
         "Table 4.2 presents the test execution metrics:"
     )
 
-    # Table 4.2
     t42 = doc.add_table(rows=6, cols=3)
     t42.alignment = WD_TABLE_ALIGNMENT.CENTER
     t42_headers = ["Test Module", "Test Focus Area", "Outcome"]
