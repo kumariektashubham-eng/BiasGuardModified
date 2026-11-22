@@ -47,7 +47,7 @@ async def seed_database():
         "created_at": now - timedelta(days=30)
     }
     user_admin = {
-        "name": "David Chen (VP Eng)",
+        "name": "Administrator",
         "email": "admin@biasguard.ai",
         "password_hash": admin_pw,
         "role": "admin",
@@ -72,8 +72,8 @@ async def seed_database():
             "created_at": now - timedelta(days=14)
         },
         {
-            "name": "Elena Rostova",
-            "email": "elena.rostova@example.com",
+            "name": "Priya Sharma",
+            "email": "priya.sharma@example.com",
             "phone": "+1 206-555-0188",
             "experience_years": 6.0,
             "target_role": "Backend Systems Architect",
@@ -83,8 +83,8 @@ async def seed_database():
             "created_at": now - timedelta(days=10)
         },
         {
-            "name": "Marcus Vance",
-            "email": "marcus.vance@example.com",
+            "name": "Rahul",
+            "email": "rahul.tech@example.com",
             "phone": "+1 512-555-0199",
             "experience_years": 3.0,
             "target_role": "Data Engineer / SQL Specialist",
@@ -302,7 +302,7 @@ async def seed_database():
     int2_q1_id = "q_java_01"
     int2_q2_id = "q_os_01"
     interview2 = {
-        "title": "Systems Architecture Round - Elena Rostova",
+        "title": "Systems Architecture Round - Priya Sharma",
         "candidate_id": c_ids[1],
         "candidate_name": candidates[1]["name"],
         "candidate_role": candidates[1]["target_role"],
@@ -445,7 +445,7 @@ async def seed_database():
     # 5. Seed Interview 3: Demonstrates GRADE INFLATION / HALO EFFECT
     int3_q1_id = "q_db_01"
     interview3 = {
-        "title": "Data Architecture Round - Marcus Vance",
+        "title": "Data Architecture Round - Rahul",
         "candidate_id": c_ids[2],
         "candidate_name": candidates[2]["name"],
         "candidate_role": candidates[2]["target_role"],
@@ -664,7 +664,7 @@ async def seed_database():
         "is_alternative_approach": True,
         "alternative_approach_name": "Two-pointer pass with bounded O(1) space",
         "feedback_notes": "Confirmed as calibration benchmark. Approved for prompt & dataset continuous training.",
-        "reviewed_by": "David Chen (VP Eng)",
+        "reviewed_by": "Administrator",
         "status": "approved",
         "promoted_to_dataset": True,
         "created_at": now - timedelta(days=4),

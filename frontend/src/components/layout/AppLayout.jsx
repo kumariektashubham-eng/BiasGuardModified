@@ -10,10 +10,10 @@ export const AppLayout = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#090D16] flex items-center justify-center">
+      <div className="min-h-screen bg-[#F8F9FA] flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-10 h-10 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-xs text-slate-400 font-mono tracking-wide">INITIALIZING BIASGUARD AI...</p>
+          <div className="w-8 h-8 border-2 border-[#2F855A] border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-xs text-gray-500 font-mono tracking-wide">INITIALIZING BIASGUARD PORTAL...</p>
         </div>
       </div>
     );
@@ -24,7 +24,7 @@ export const AppLayout = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#090D16] dark:bg-[#090D16] flex flex-col">
+    <div className="min-h-screen bg-[#F8F9FA] flex flex-col">
       <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
       
       <div className="lg:pl-64 flex flex-col flex-1 min-h-screen">

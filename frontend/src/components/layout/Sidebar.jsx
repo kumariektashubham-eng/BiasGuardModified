@@ -56,7 +56,7 @@ export const Sidebar = ({ isOpen, setIsOpen }) => {
             </div>
             <div>
               <span className="font-bold text-sm text-gray-900 tracking-tight">BiasGuard Portal</span>
-              <p className="text-[11px] text-gray-500 font-mono">BIT Mesra · MO-2026</p>
+              <p className="text-[11px] text-gray-500 font-mono">Evaluation Portal</p>
             </div>
           </NavLink>
         </div>

@@ -65,10 +65,6 @@ export const Navbar = ({ onOpenSidebar }) => {
           <RefreshCw className={`w-3.5 h-3.5 text-[#2F855A] ${isSeeding ? 'animate-spin' : ''}`} />
           <span className="hidden md:inline">{isSeeding ? 'Populating...' : 'Reset Test Data'}</span>
         </button>
-
-        <span className="text-xs font-mono text-gray-500 bg-gray-100 px-2 py-1 rounded">
-          BIT Mesra (MO-2026)
-        </span>
       </div>
     </header>
   );
