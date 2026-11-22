@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, Sun, Moon, Sparkles, RefreshCw, Database } from 'lucide-react';
-import { useTheme } from '../../context/ThemeContext';
+import { Menu, RefreshCw, Terminal, CheckCircle2 } from 'lucide-react';
 import { settingsApi, seedApi } from '../../services/api';
-import { Badge } from '../common/Badge';
 
 export const Navbar = ({ onOpenSidebar }) => {
-  const { isDark, toggleTheme } = useTheme();
   const [engineStatus, setEngineStatus] = useState({ mock_ai_mode: true, model: 'Semantic Engine' });
   const [isSeeding, setIsSeeding] = useState(false);
 
@@ -25,7 +22,7 @@ export const Navbar = ({ onOpenSidebar }) => {
   }, []);
 
   const handleQuickSeed = async () => {
-    if (window.confirm("Reload demonstration scenarios? This will reset demo candidate cases with real-world bias detection flags.")) {
+    if (window.confirm("Reload benchmark test cases? This populates sample DSA & Python interview records.")) {
       setIsSeeding(true);
       try {
         await seedApi.seed();
@@ -39,48 +36,39 @@ export const Navbar = ({ onOpenSidebar }) => {
   };
 
   return (
-    <header className="sticky top-0 z-20 h-16 bg-[#0B0F19]/80 backdrop-blur-md border-b border-slate-800/80 px-4 sm:px-6 flex items-center justify-between">
+    <header className="sticky top-0 z-20 h-14 bg-white border-b border-gray-200 px-4 sm:px-6 flex items-center justify-between">
       <div className="flex items-center gap-3">
         <button
           onClick={onOpenSidebar}
-          className="lg:hidden p-2 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800/60"
+          className="lg:hidden p-1.5 text-gray-600 hover:text-gray-900 rounded hover:bg-gray-100"
         >
           <Menu className="w-5 h-5" />
         </button>
 
-        {/* Engine Live Status Pill */}
-        <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/80 border border-slate-800 text-xs">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-          </span>
-          <span className="text-slate-400">AI Evaluation:</span>
-          <span className="font-medium text-slate-200">
+        {/* Technical Engine Status Pill */}
+        <div className="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded bg-gray-100 border border-gray-200 text-xs font-mono text-gray-700">
+          <span className="h-2 w-2 rounded-full bg-[#2F855A]"></span>
+          <span className="text-gray-500">Evaluation Engine:</span>
+          <span className="font-semibold text-gray-900">
             {engineStatus.mock_ai_mode ? 'Domain Semantic NLP' : `OpenAI (${engineStatus.model})`}
           </span>
         </div>
       </div>
 
       <div className="flex items-center gap-3">
-        {/* Reset / Demo seed button */}
         <button
           onClick={handleQuickSeed}
           disabled={isSeeding}
-          title="Reload Demo Data"
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 border border-slate-700/60 transition-colors"
+          title="Reload Test Records"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold bg-gray-50 hover:bg-gray-100 text-gray-700 border border-gray-300 transition-colors"
         >
-          <RefreshCw className={`w-3.5 h-3.5 ${isSeeding ? 'animate-spin text-purple-400' : ''}`} />
-          <span className="hidden md:inline">{isSeeding ? 'Seeding...' : 'Reload Demo Data'}</span>
+          <RefreshCw className={`w-3.5 h-3.5 text-[#2F855A] ${isSeeding ? 'animate-spin' : ''}`} />
+          <span className="hidden md:inline">{isSeeding ? 'Populating...' : 'Reset Test Data'}</span>
         </button>
 
-        {/* Theme Toggle */}
-        <button
-          onClick={toggleTheme}
-          title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
-          className="p-2 text-slate-400 hover:text-slate-200 rounded-lg hover:bg-slate-800/60 transition-colors"
-        >
-          {isDark ? <Sun className="w-4 h-4 text-amber-300" /> : <Moon className="w-4 h-4 text-purple-400" />}
-        </button>
+        <span className="text-xs font-mono text-gray-500 bg-gray-100 px-2 py-1 rounded">
+          BIT Mesra (MO-2026)
+        </span>
       </div>
     </header>
   );
