@@ -1,5 +1,6 @@
 import os
 import re
+import html
 import secrets
 import hashlib
 import logging
@@ -94,8 +95,12 @@ Best regards,
 {interviewer} & The BiasGuard AI Team
 """
 
+    safe_candidate_name = html.escape(str(candidate_name))
+    safe_interview_title = html.escape(str(interview_title))
+    safe_interviewer = html.escape(str(interviewer))
+
     domains_badges_html = "".join([
-        f'<span style="display:inline-block;background-color:#EEF2FF;color:#4F46E5;font-weight:600;font-size:12px;padding:4px 10px;border-radius:12px;margin:2px 4px 2px 0;">{d}</span>'
+        f'<span style="display:inline-block;background-color:#EEF2FF;color:#4F46E5;font-weight:600;font-size:12px;padding:4px 10px;border-radius:12px;margin:2px 4px 2px 0;">{html.escape(str(d))}</span>'
         for d in domains
     ]) or '<span style="color:#6B7280;font-size:13px;">General Technical</span>'
 
@@ -120,20 +125,20 @@ Best regards,
 
     <!-- Body -->
     <div style="padding:32px 28px;">
-      <h2 style="font-size:18px;font-weight:600;color:#111827;margin-top:0;">Hello {candidate_name},</h2>
+      <h2 style="font-size:18px;font-weight:600;color:#111827;margin-top:0;">Hello {safe_candidate_name},</h2>
       <p style="color:#4B5563;font-size:15px;margin-bottom:20px;">
-        <strong style="color:#111827;">{interviewer}</strong> has invited you to participate in a live online technical interview for <strong style="color:#111827;">{interview_title}</strong>.
+        <strong style="color:#111827;">{safe_interviewer}</strong> has invited you to participate in a live online technical interview for <strong style="color:#111827;">{safe_interview_title}</strong>.
       </p>
 
       <!-- Interview Card -->
       <div style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;padding:20px;margin-bottom:24px;">
         <div style="margin-bottom:12px;">
           <div style="font-size:12px;font-weight:600;color:#64748B;text-transform:uppercase;letter-spacing:0.5px;">Target Role / Title</div>
-          <div style="font-size:16px;font-weight:600;color:#0F172A;margin-top:2px;">{interview_title}</div>
+          <div style="font-size:16px;font-weight:600;color:#0F172A;margin-top:2px;">{safe_interview_title}</div>
         </div>
         <div style="margin-bottom:12px;">
           <div style="font-size:12px;font-weight:600;color:#64748B;text-transform:uppercase;letter-spacing:0.5px;">Interviewer</div>
-          <div style="font-size:14px;font-weight:500;color:#0F172A;margin-top:2px;">{interviewer}</div>
+          <div style="font-size:14px;font-weight:500;color:#0F172A;margin-top:2px;">{safe_interviewer}</div>
         </div>
         <div style="margin-bottom:12px;">
           <div style="font-size:12px;font-weight:600;color:#64748B;text-transform:uppercase;letter-spacing:0.5px;">Technical Domains</div>

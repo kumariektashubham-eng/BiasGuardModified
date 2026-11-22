@@ -281,13 +281,25 @@ def evaluate_with_mock_engine(
         else:
             base_score = 4.0 + (criteria_ratio * 4.5)
     else:
-        # Generic heuristic if no criteria passed
-        if word_count > 60:
-            base_score = 7.5
-        elif word_count > 25:
-            base_score = 5.5
-        else:
-            base_score = 3.0
+        # Balanced semantic heuristic when no specific criteria passed
+        # Evaluates vocabulary diversity, question relevance, and programming substance
+        question_keywords = [w for w in re.findall(r'\b\w{4,}\b', lower_q) if w not in {'what', 'when', 'where', 'which', 'explain', 'describe', 'difference', 'between'}]
+        relevance_matches = sum(1 for kw in question_keywords if kw in lower_ans)
+        unique_word_ratio = len(set(words)) / max(1, word_count)
+
+        # Baseline starts conservative at 4.0
+        base_score = 4.0
+        if relevance_matches > 0:
+            base_score += min(2.0, relevance_matches * 0.7)
+        if has_code_or_syntax:
+            base_score += 1.0
+        if has_complexity_mention:
+            base_score += 0.8
+        if unique_word_ratio > 0.6 and word_count >= 30:
+            base_score += 0.7
+        elif unique_word_ratio < 0.4:
+            base_score -= 1.5  # Penalize repetitive filler text
+        base_score = max(2.0, min(8.5, round(base_score, 1)))
 
     # 3. Domain-Specific Concept & Alternative Detection
     d = domain.upper()

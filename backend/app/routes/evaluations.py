@@ -540,6 +540,7 @@ def sync_interview_report(interview_id: str):
             
         total_questions = len(interview.get("questions", []))
         evaluated_questions = len(evals)
+        completion_rate = round((evaluated_questions / max(1, total_questions)) * 100, 1)
         
         ai_scores = [
             float(e["ai_evaluation"]["technical_score"]) 
@@ -550,6 +551,9 @@ def sync_interview_report(interview_id: str):
         
         avg_ai = round(sum(ai_scores) / len(ai_scores), 1) if ai_scores else None
         avg_int = round(sum(int_scores) / len(int_scores), 1) if int_scores else None
+        
+        weighted_ai = round(avg_ai * (evaluated_questions / max(1, total_questions)), 1) if avg_ai is not None else None
+        weighted_int = round(avg_int * (evaluated_questions / max(1, total_questions)), 1) if avg_int is not None else None
         
         discrepancies = [e for e in evals if e.get("discrepancy", {}).get("detected")]
         discrepancy_count = len(discrepancies)
@@ -564,6 +568,9 @@ def sync_interview_report(interview_id: str):
             rating = "Action Recommended"
             summary = f"{discrepancy_count} potential discrepancies detected across {evaluated_questions} questions. A senior bar raiser or calibration committee should review candidate answers prior to final hiring decision."
             
+        if evaluated_questions < total_questions:
+            summary += f" [Session Notice: Incomplete interview - {evaluated_questions} of {total_questions} questions attempted ({completion_rate}% completion).]"
+
         recommendations = []
         for d in discrepancies:
             disc = d.get("discrepancy", {})
@@ -583,8 +590,11 @@ def sync_interview_report(interview_id: str):
             "domains": interview.get("domains", []),
             "total_questions": total_questions,
             "evaluated_questions": evaluated_questions,
+            "completion_rate": completion_rate,
             "average_interviewer_score": avg_int,
             "average_ai_score": avg_ai,
+            "weighted_interviewer_score": weighted_int,
+            "weighted_ai_score": weighted_ai,
             "discrepancy_count": discrepancy_count,
             "overall_fairness_rating": rating,
             "executive_summary": summary,
