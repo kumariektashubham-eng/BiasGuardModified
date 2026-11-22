@@ -1,0 +1,79 @@
+[
+  {
+    "domain": "DSA",
+    "question_text": "Given an array of integers and an integer target, how would you find indices of two numbers that sum up to target?",
+    "candidate_answer": "In memory-constrained embedded systems, allocating an auxiliary hash map of O(N) isn't acceptable. By sorting the array in O(n log n), we can use a two-pointer pass (left/right) to achieve strict O(1) space complexity.",
+    "expert_score": 8.5,
+    "correctness_label": "alternative_valid_approach",
+    "expert_explanation": "Valid engineering trade-off choosing O(1) space over O(n) hash table. Mathematically sound.",
+    "expected_concepts": ["Two-pointer pass", "O(1) auxiliary space", "Sorting trade-off"],
+    "alternative_approaches": ["Two-pointer traversal on sorted array"],
+    "validated": true
+  },
+  {
+    "domain": "DSA",
+    "question_text": "Given an array of integers and an integer target, how would you find indices of two numbers that sum up to target?",
+    "candidate_answer": "We iterate through the array once and store each number and its index in a hash map. For each number x, we check if target - x is already in the map. This achieves O(n) time and O(n) space.",
+    "expert_score": 9.5,
+    "correctness_label": "correct",
+    "expert_explanation": "Canonical optimal linear time solution with clean complement lookup.",
+    "expected_concepts": ["Single-pass hash map", "Complement calculation", "O(n) time", "O(n) space"],
+    "alternative_approaches": ["Sorting with two pointers"],
+    "validated": true
+  },
+  {
+    "domain": "Python",
+    "question_text": "Explain Python's Global Interpreter Lock (GIL) and CPU parallelism.",
+    "candidate_answer": "The GIL is a mutex in CPython that prevents multiple native threads from executing bytecode at once to protect reference counting. For heavy CPU work, you must spawn separate processes via multiprocessing.",
+    "expert_score": 8.8,
+    "correctness_label": "correct",
+    "expert_explanation": "Accurate explanation of CPython mutex and memory management constraints.",
+    "expected_concepts": ["CPython mutex", "Reference counting protection", "Multiprocessing for CPU bound"],
+    "alternative_approaches": ["Subinterpreters", "Cython C-extensions"],
+    "validated": true
+  },
+  {
+    "domain": "Java",
+    "question_text": "Explain Java HashMap collision handling and the equals/hashCode contract.",
+    "candidate_answer": "In Java 8, buckets are arrays of Nodes. On collision, linked lists form, which treeify into Red-Black Trees at 8 elements (O(log n)). Overriding equals() without hashCode() breaks the contract and get() fails to locate the bucket.",
+    "expert_score": 9.5,
+    "correctness_label": "correct",
+    "expert_explanation": "Comprehensive mastery of JVM internals, treeification conditions, and collection contracts.",
+    "expected_concepts": ["Array of Node buckets", "Treeify threshold 8", "Red-black tree O(log n)", "equals and hashCode contract"],
+    "alternative_approaches": ["ConcurrentHashMap CAS-striping"],
+    "validated": true
+  },
+  {
+    "domain": "SQL",
+    "question_text": "Write a query to retrieve the second highest salary from an Employee table without using LIMIT or TOP.",
+    "candidate_answer": "SELECT MAX(salary) FROM Employee WHERE salary < (SELECT MAX(salary) FROM Employee); Handles ties correctly and yields NULL if fewer than two distinct salaries exist.",
+    "expert_score": 9.0,
+    "correctness_label": "correct",
+    "expert_explanation": "Standard ANSI-SQL compatible query handling edge cases gracefully.",
+    "expected_concepts": ["WHERE salary < subquery", "MAX aggregation", "NULL handling"],
+    "alternative_approaches": ["DENSE_RANK() OVER (ORDER BY salary DESC)"],
+    "validated": true
+  },
+  {
+    "domain": "DBMS",
+    "question_text": "What is Database Normalization? Walk through 1NF, 2NF, 3NF, and BCNF with examples.",
+    "candidate_answer": "Normalization is basically making sure data isn't repeated. In 1NF you don't put commas in cells. In 2NF you make sure tables have primary keys. In 3NF you connect tables with foreign keys so data is clean.",
+    "expert_score": 4.5,
+    "correctness_label": "incorrect",
+    "expert_explanation": "Colloquial description lacking formal functional dependency rigor. Confuses 3NF with foreign keys.",
+    "expected_concepts": ["Atomic attributes", "Partial dependency removal", "Transitive dependency elimination", "Super key determinant BCNF"],
+    "alternative_approaches": [],
+    "validated": true
+  },
+  {
+    "domain": "Operating Systems",
+    "question_text": "What is Deadlock in operating systems? State the four Coffman conditions.",
+    "candidate_answer": "Deadlock requires 4 Coffman conditions: Mutual Exclusion, Hold and Wait, No Preemption, and Circular Wait. You can eliminate deadlock entirely by imposing a strict global ordering on lock acquisition to break circular wait.",
+    "expert_score": 9.5,
+    "correctness_label": "correct",
+    "expert_explanation": "Precise formulation of Coffman conditions and global lock ordering prevention strategy.",
+    "expected_concepts": ["Mutual Exclusion", "Hold and Wait", "No Preemption", "Circular Wait", "Lock ordering prevention"],
+    "alternative_approaches": ["Banker's Algorithm avoidance"],
+    "validated": true
+  }
+]
