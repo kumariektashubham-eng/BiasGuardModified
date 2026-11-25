@@ -276,6 +276,56 @@ BIAS-GUARD/
 
 ---
 
+## 📱 Candidates on Other Devices (Remote / Mobile / Cross-Network Setup)
+
+When interviewing candidates joining from a different laptop, smartphone (iOS / Android), or remote network outside your local machine, the browser and LiveKit need to reach your frontend and backend securely.
+
+### 1. Expose the Frontend via Cloudflare Tunnel
+Modern mobile browsers (Safari on iOS, Chrome on Android) require an **HTTPS** context to grant access to cameras and microphones. Cloudflare Tunnel provides an instant, free, secure HTTPS URL without opening router ports:
+
+1. Install [Cloudflare `cloudflared`](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/downloads/) on your host machine.
+2. Run the tunnel command in a new terminal window:
+   ```bash
+   cloudflared tunnel --url http://127.0.0.1:5173
+   ```
+3. Copy the generated public HTTPS URL from the terminal output (for example: `https://example-random-subdomain.trycloudflare.com`).
+
+> [!NOTE]
+> Every time you restart `cloudflared tunnel` without a named tunnel configuration, a new random subdomain is assigned. Whenever the tunnel restarts, you must update `FRONTEND_BASE_URL` in `backend/.env` and resend invitations.
+
+### 2. Configure `FRONTEND_BASE_URL` in `backend/.env`
+Open `backend/.env` and update `FRONTEND_BASE_URL` to match your active public tunnel URL:
+```ini
+FRONTEND_BASE_URL=https://example-random-subdomain.trycloudflare.com
+```
+
+### 3. Restart the Backend & Development Servers
+Restart your backend server so it loads the new origin and generates email links pointing to the public tunnel:
+```powershell
+.\stop-dev.ps1
+.\start-dev.ps1
+```
+*(Or restart Uvicorn if running services manually).*
+
+### 4. Send or Resend Candidate Invitations
+From the interviewer dashboard, click **"Send Invitation Email"** (or **"Resend Email"**). The invitation link will now be generated with your public HTTPS tunnel URL. The candidate can open the email on their phone or remote laptop and join immediately.
+
+---
+
+### 🛠️ Troubleshooting Cross-Device Interviews
+
+| Issue / Symptom | Root Cause | Fix / Resolution |
+|---|---|---|
+| **"Camera & Microphone Access Denied" on phone** | Mobile browsers block media devices over plain HTTP | Always access via HTTPS (e.g. Cloudflare tunnel `https://*.trycloudflare.com`). In Safari on iOS or Chrome on Android, tap the URL bar icon to allow camera and mic permissions. |
+| **"Could not establish signal connection: invalid token"** | LiveKit credentials or room configuration mismatch | Verify that `LIVEKIT_URL`, `LIVEKIT_API_KEY`, and `LIVEKIT_API_SECRET` are set in `backend/.env`. Both interviewer and candidate automatically join the canonical shared room `interview_<id>`. |
+| **"Your session expired. Please reopen your invitation link."** | The 30-minute join window expired before clicking Accept | The join window (`INVITATION_EXPIRY_MINUTES=30`) protects unaccepted links. Have the interviewer click "Resend Email". Once accepted, the session remains active for up to 3 hours (`SESSION_MAX_MINUTES=180`). |
+| **"Network Error" or blank page on candidate's phone** | `FRONTEND_BASE_URL` points to `localhost` or old tunnel | Ensure `FRONTEND_BASE_URL` in `backend/.env` matches the current `cloudflared` tunnel URL, and that `Vite` was started with tunnel domain support (included by default in `vite.config.js`). |
+| **Audio recording fails to upload on iOS Safari** | Safari records audio in MP4/AAC containers instead of WebM | BiasGuard automatically detects browser codec support, records in `audio/mp4` on iOS, and transcribes via Whisper without any manual settings needed. |
+| **Phone screen turns off during long answers** | Mobile device auto-sleep / lock screen | BiasGuard AI activates the Screen Wake Lock API automatically while in the interview room. Keep the tab open and do not switch away from the browser during recording. |
+| **Weak cellular network or dropped live video** | Bandwidth congestion on candidate device | BiasGuard AI automatically reconnects video, or gracefully falls back to `"Recorded-Answer Mode"` so the candidate can complete the interview uninterrupted. |
+
+---
+
 ## 🧪 Automated Testing
 
 BiasGuard AI includes an automated test suite covering unit logic, RAG vector similarity, training message formatting, statistical metrics calculation, fairness suites, and REST endpoints:

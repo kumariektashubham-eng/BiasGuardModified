@@ -1,0 +1,10 @@
+﻿{
+    "WatchdogPID":  7504,
+    "CloudflaredPID":  30968,
+    "StartedAt":  "2026-11-26T02:36:59.2463971+05:30",
+    "BackendPort":  8000,
+    "BackendPID":  15624,
+    "FrontendPID":  18092,
+    "FrontendPort":  5173,
+    "PublicBaseUrl":  "https://researcher-showing-phase-explain.trycloudflare.com"
+}

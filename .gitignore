@@ -9,7 +9,6 @@ frontend/.env
 
 # Virtual environments
 .venv/
-backend/.venv/
 venv/
 env/
 
@@ -33,12 +32,3 @@ backend/uploads/audio/*
 !backend/uploads/audio/.gitkeep
 backend/uploads/video/*
 !backend/uploads/video/.gitkeep
-
-# Temporary scripts and diagnostics
-backend/scripts/
-backend/test_*.py
-backend/verify_*.py
-backend/migrate_*.py
-test_*.mjs
-*.docx
-

@@ -1,8 +1,8 @@
 # ==============================================================================
 # BiasGuard AI - Development Environment Teardown Script
 # ==============================================================================
-# Gracefully stops only the development processes started for BiasGuard AI.
-# Releases ports 8000 and 5173 safely without terminating unrelated system processes.
+# Gracefully stops only the development processes started for BiasGuard AI:
+# FastAPI backend (port 8000), Vite frontend (port 5173), and cloudflared tunnel.
 # ==============================================================================
 
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
@@ -25,6 +25,18 @@ $StoppedAny = $false
 if (Test-Path $PidFile) {
     try {
         $data = Get-Content $PidFile -Raw | ConvertFrom-Json
+        if ($data.WatchdogPID -and $data.WatchdogPID -ne $PID) {
+            Write-Host "[-] Stopping start-dev watchdog loop (PID $($data.WatchdogPID))..." -NoNewline
+            taskkill.exe /PID $data.WatchdogPID /T /F 2>$null | Out-Null
+            Write-Host " [STOPPED]" -ForegroundColor Green
+            $StoppedAny = $true
+        }
+        if ($data.CloudflaredPID) {
+            Write-Host "[-] Stopping Cloudflare Tunnel (PID $($data.CloudflaredPID))..." -NoNewline
+            taskkill.exe /PID $data.CloudflaredPID /T /F 2>$null | Out-Null
+            Write-Host " [STOPPED]" -ForegroundColor Green
+            $StoppedAny = $true
+        }
         if ($data.BackendPID) {
             Write-Host "[-] Stopping backend process tree (PID $($data.BackendPID))..." -NoNewline
             taskkill.exe /PID $data.BackendPID /T /F 2>$null | Out-Null
@@ -43,7 +55,45 @@ if (Test-Path $PidFile) {
     Remove-Item $PidFile -Force -ErrorAction SilentlyContinue
 }
 
-# 2. Safety check: Check if ports 8000 or 5173 are still held by dev processes (kill tree)
+# 2. Safety check: Stop any lingering start-dev.ps1 watchdog or cloudflared tunnel
+try {
+    $psWatchdogs = Get-CimInstance Win32_Process -Filter "Name = 'powershell.exe' OR Name = 'pwsh.exe'" -ErrorAction SilentlyContinue
+    foreach ($pw in $psWatchdogs) {
+        if ($pw.ProcessId -ne $PID -and $pw.CommandLine -match 'start-dev\.ps1') {
+            Write-Host "[-] Stopping lingering start-dev.ps1 watchdog (PID $($pw.ProcessId))..." -NoNewline
+            taskkill.exe /PID $pw.ProcessId /T /F 2>$null | Out-Null
+            Write-Host " [STOPPED]" -ForegroundColor Green
+        }
+    }
+    $cfProcs = Get-CimInstance Win32_Process -Filter "Name = 'cloudflared.exe'" -ErrorAction SilentlyContinue
+    foreach ($cf in $cfProcs) {
+        if ($cf.CommandLine -match 'localhost:5173|127\.0\.0\.1:5173') {
+            Write-Host "[-] Stopping lingering cloudflared tunnel (PID $($cf.ProcessId))..." -NoNewline
+            taskkill.exe /PID $cf.ProcessId /T /F 2>$null | Out-Null
+            Write-Host " [STOPPED]" -ForegroundColor Green
+        }
+    }
+} catch {}
+
+# Clear stale PUBLIC_BASE_URL from backend/.env on clean stop
+$BackendEnvFile = Join-Path $ProjectRoot "backend\.env"
+if (Test-Path $BackendEnvFile) {
+    try {
+        $lines = Get-Content -Path $BackendEnvFile -Encoding UTF8
+        $updated = @()
+        foreach ($line in $lines) {
+            if ($line -match '^\s*PUBLIC_BASE_URL\s*=') {
+                $updated += "PUBLIC_BASE_URL="
+            } else {
+                $updated += $line
+            }
+        }
+        $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+        [System.IO.File]::WriteAllLines($BackendEnvFile, $updated, $utf8NoBom)
+    } catch {}
+}
+
+# 3. Safety check: Check if ports 8000 or 5173 are still held by dev processes (kill tree)
 function Stop-PortProcess([int]$Port, [string]$Label, [string]$Pattern) {
     $conn = Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction SilentlyContinue | Select-Object -First 1
     if ($conn) {
@@ -63,7 +113,7 @@ function Stop-PortProcess([int]$Port, [string]$Label, [string]$Pattern) {
 $bStopped = Stop-PortProcess 8000 "FastAPI backend" "python|uvicorn"
 $fStopped = Stop-PortProcess 5173 "Vite frontend" "node|cmd|powershell"
 
-# 3. Verify ports are now free
+# 4. Verify ports are now free
 Start-Sleep -Milliseconds 500
 $rem8000 = Get-NetTCPConnection -LocalPort 8000 -State Listen -ErrorAction SilentlyContinue
 $rem5173 = Get-NetTCPConnection -LocalPort 5173 -State Listen -ErrorAction SilentlyContinue
@@ -71,7 +121,7 @@ $rem5173 = Get-NetTCPConnection -LocalPort 5173 -State Listen -ErrorAction Silen
 Write-Host ""
 if (-not $rem8000 -and -not $rem5173) {
     Write-Host "======================================================================" -ForegroundColor Green
-    Write-Host " [SUCCESS] Ports 8000 and 5173 are completely free." -ForegroundColor Green
+    Write-Host " [SUCCESS] Ports 8000 & 5173 are free and cloudflared is stopped." -ForegroundColor Green
     Write-Host " BiasGuard AI development servers are stopped." -ForegroundColor Green
     Write-Host "======================================================================" -ForegroundColor Green
 } else {
