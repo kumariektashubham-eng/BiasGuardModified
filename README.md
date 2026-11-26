@@ -28,7 +28,7 @@ Its primary objective is to identify situations where technically correct or val
   - **Strict Keyword / Fluency Penalties** (High technical validity down-scored for phrasing or omitted buzzwords)
   - **Uncalibrated Severity** (Disproportionately low score without technical justification)
   - **Grade Inflation / Halo Effect** (High scores assigned to superficial answers based on superficial rapport)
-- Surfaces neutral **"Potential Review Flags"** formulated for engineering calibration committees rather than accusatory accusations.
+- Surfaces neutral **"Potential Review Flags"** formulated for engineering calibration committees rather than accusatory accusations.hh
 
 ### 3. Explainable AI Audit Reports
 - Complete question-by-question breakdown.
